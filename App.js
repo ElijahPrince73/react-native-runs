@@ -38,7 +38,7 @@ const AppStackScreen = () => (
   </AppStack.Navigator>
 )
 
-export default function App() {
+export default () => {
   const userToken = ''
   return (
     <NavigationContainer>
