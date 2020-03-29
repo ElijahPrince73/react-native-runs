@@ -13,7 +13,7 @@ import TrackListScreen from './src/screens/TrackListScreen'
 const AuthStack = createStackNavigator()
 
 const AuthStackScreen = () => (
-  <AuthStack.Navigator>
+  <AuthStack.Navigator screenOptions={{headerShown: false}}>
     <AuthStack.Screen name="SignIn" component={SignInScreen} />
     <AuthStack.Screen name="SignUp" component={SignUpScreen} />
   </AuthStack.Navigator>
@@ -39,7 +39,8 @@ const AppStackScreen = () => (
 )
 
 export default () => {
-  const userToken = ''
+  const userToken = null
+  console.log(userToken)
   return (
     <NavigationContainer>
       {userToken === null ? (
