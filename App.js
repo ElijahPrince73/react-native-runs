@@ -9,13 +9,14 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen'
 import TrackDetailScreen from './src/screens/TrackDetailScreen'
 import TrackListScreen from './src/screens/TrackListScreen'
+import { Provider as AuthProvider } from './src/context/AuthContext'
 
 const AuthStack = createStackNavigator()
 
 const AuthStackScreen = () => (
   <AuthStack.Navigator screenOptions={{headerShown: false}}>
-    <AuthStack.Screen name="SignIn" component={SignInScreen} />
     <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+    <AuthStack.Screen name="SignIn" component={SignInScreen} />
   </AuthStack.Navigator>
 )
 
@@ -38,17 +39,21 @@ const AppStackScreen = () => (
   </AppStack.Navigator>
 )
 
-export default () => {
-  const userToken = null
-  console.log(userToken)
-  return (
-    <NavigationContainer>
-      {userToken === null ? (
-          <AuthStackScreen />
-        ) : (
-          <AppStackScreen />
-        )
-      }
-    </NavigationContainer>
-  )
-}
+let userToken = null
+
+const App = () => (
+  <NavigationContainer>
+    {userToken === null ? (
+        <AuthStackScreen />
+      ) : (
+        <AppStackScreen />
+      )
+    }
+  </NavigationContainer>
+)
+
+export default () => (
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+)
