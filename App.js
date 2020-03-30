@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, { useContext } from 'react'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,7 +9,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen'
 import TrackDetailScreen from './src/screens/TrackDetailScreen'
 import TrackListScreen from './src/screens/TrackListScreen'
-import { Provider as AuthProvider } from './src/context/AuthContext'
+import { Provider as AuthProvider, Context as AuthContext } from './src/context/AuthContext'
 
 const AuthStack = createStackNavigator()
 
@@ -41,16 +41,20 @@ const AppStackScreen = () => (
 
 let userToken = null
 
-const App = () => (
-  <NavigationContainer>
-    {userToken === null ? (
-        <AuthStackScreen />
-      ) : (
-        <AppStackScreen />
-      )
-    }
-  </NavigationContainer>
-)
+const App = () => {
+  const { state } = useContext(AuthContext)
+  
+  return (
+    <NavigationContainer>
+      {state.token === null ? (
+          <AuthStackScreen />
+        ) : (
+          <AppStackScreen />
+        )
+      }
+    </NavigationContainer>
+  )
+}
 
 export default () => (
   <AuthProvider>
