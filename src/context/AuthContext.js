@@ -2,16 +2,29 @@ import { AsyncStorage } from 'react-native'
 import createDataContext from './createDataContext'
 import trackerApi from '../api/tracker'
 
-const authReducer = (state, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'sign_in':
-      return { errorMessage: '', token: action.payload }
+      return { isLoading: false, errorMessage: '', token: action.payload }
     case 'add_error':
       return { ...state, errorMessage: action.payload }
     case 'clear_error_message': 
       return { ...state, errorMessage: '' }
+    case 'no_token': 
+      return { ...state, isLoading: false }
+    case 'sign_out': 
+      return { token: null }
     default:
       return state
+  }
+}
+
+const tryLocalSignIn = (dispatch) => async () => {
+  const token = await AsyncStorage.getItem('token')
+  if(token) {
+    dispatch({ type: 'sign_in', payload: token })
+  } else {
+    dispatch({ type: 'no_token' })
   }
 }
 
@@ -41,14 +54,13 @@ const signIn = (dispatch) => async ({ email, password }) => {
   }
 }
 
-const signOut = (dispatch) => {
-  return () => {
-    
-  }
+const signOut = (dispatch) => async () => {
+  await AsyncStorage.removeItem('token')
+  dispatch({ type: 'sign_out' })
 }
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signUp, signIn, signOut, clearErrorMessage },
-  { token: null, errorMessage: '' }
+  { signUp, signIn, signOut, clearErrorMessage, tryLocalSignIn },
+  { token: null, errorMessage: '', isLoading: true }
 )

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'; 
+import React, { useContext, useEffect } from 'react'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +9,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen'
 import TrackDetailScreen from './src/screens/TrackDetailScreen'
 import TrackListScreen from './src/screens/TrackListScreen'
+import LoadingScreen from './src/screens/LoadingScreen'
 import { Provider as AuthProvider, Context as AuthContext } from './src/context/AuthContext'
 
 const AuthStack = createStackNavigator()
@@ -34,16 +35,18 @@ const AppStack = createBottomTabNavigator()
 const AppStackScreen = () => (
   <AppStack.Navigator>
     <AppStack.Screen name="TrackList" component={TrackListScreens}/>
-    <AppStack.Screen name="TrackCreate" component={TrackCreateScreen}/>
-    <AppStack.Screen name="Account" component={AccountScreen}/>
+    <AppStack.Screen name="TrackCreate" component={TrackCreateScreen} />
+    <AppStack.Screen name="Account" component={AccountScreen} />
   </AppStack.Navigator>
 )
 
-let userToken = null
-
 const App = () => {
   const { state } = useContext(AuthContext)
-  
+
+  if(state.isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <NavigationContainer>
       {state.token === null ? (
