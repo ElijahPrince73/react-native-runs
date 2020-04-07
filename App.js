@@ -11,6 +11,7 @@ import TrackDetailScreen from './src/screens/TrackDetailScreen'
 import TrackListScreen from './src/screens/TrackListScreen'
 import LoadingScreen from './src/screens/LoadingScreen'
 import { Provider as AuthProvider, Context as AuthContext } from './src/context/AuthContext'
+import { Provider as LocationProvider } from './src/context/LocationContext'
 
 const AuthStack = createStackNavigator()
 
@@ -61,6 +62,8 @@ const App = () => {
 
 export default () => (
   <AuthProvider>
-    <App />
+    <LocationProvider>
+      <App />
+    </LocationProvider>
   </AuthProvider>
 )
