@@ -14,10 +14,11 @@ const startRecording = dispatch => () => {
 }
 
 const stopRecording = dispatch => () => {
-
+  
 }
 
 const addLocation = dispatch => (location) => {
+  console.log('object')
   dispatch({ type: 'add_location', payload: location })
 }
 
