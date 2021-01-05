@@ -13,7 +13,7 @@
     "@react-navigation/compat": "^5.1.7",
     "@react-navigation/native": "^5.1.4",
     "@react-navigation/stack": "^5.2.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~36.0.0",
     "expo-location": "~8.0.0",
     "expo-permissions": "~8.0.0",
